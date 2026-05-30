@@ -1,6 +1,7 @@
 package com.mjapa21.productdetailsscreen
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -28,11 +29,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -56,6 +61,10 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductScreen() {
+    val selectedSize: MutableState<String?> = remember { mutableStateOf(null) }
+    val context = LocalContext.current
+
+
     Scaffold(topBar = {
         TopAppBar(
             navigationIcon = {
@@ -90,7 +99,13 @@ fun ProductScreen() {
                     Text("$ 1,190", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 }
                 Button(
-                    onClick = {},
+                    onClick = {
+                        if (selectedSize.value == null) Toast.makeText(
+                            context,
+                            "Please select a size",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
                     shape = ButtonDefaults.filledTonalShape,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -199,10 +214,21 @@ fun ProductScreen() {
             ) {
                 val listOfSizes = listOf("S", "M", "L")
                 for (size in listOfSizes) {
-                    OutlinedButton(
-                        onClick = {}, shape = ButtonDefaults.outlinedShape
-                    ) {
-                        Text(size)
+                    if (size == selectedSize.value) {
+                        Button(
+                            onClick = {},
+                            shape = ButtonDefaults.filledTonalShape
+                        ) {
+                            Text(size)
+                        }
+                    } else {
+                        OutlinedButton(
+                            onClick = {
+                                selectedSize.value = size
+                            }, shape = ButtonDefaults.outlinedShape
+                        ) {
+                            Text(size)
+                        }
                     }
                 }
             }
