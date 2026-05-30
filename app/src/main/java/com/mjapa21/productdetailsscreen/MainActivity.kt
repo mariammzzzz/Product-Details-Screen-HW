@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,7 +77,7 @@ fun ProductScreen() {
                 }
             }, title = {
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    Text("Product Details", fontWeight = FontWeight.Bold)
+                    Text("Details", fontWeight = FontWeight.Bold)
                 }
             }, actions = {
                 IconButton(onClick = {}) {
@@ -188,7 +189,8 @@ fun ProductScreen() {
                     "4.0/5",
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 24.sp,
+                    textDecoration = TextDecoration.Underline
                 )
                 Text(
                     "(45 reviews)",
