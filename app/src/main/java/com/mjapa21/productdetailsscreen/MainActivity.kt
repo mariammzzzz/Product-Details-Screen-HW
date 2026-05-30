@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +25,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -99,6 +99,8 @@ fun ProductScreen() {
                     Text("$ 1,190", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 }
                 Button(
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     onClick = {
                         if (selectedSize.value == null) Toast.makeText(
                             context,
@@ -106,8 +108,11 @@ fun ProductScreen() {
                             Toast.LENGTH_SHORT
                         ).show()
                     },
-                    shape = ButtonDefaults.filledTonalShape,
-                    modifier = Modifier.fillMaxWidth()
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Black,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(8.dp)
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -195,7 +200,10 @@ fun ProductScreen() {
 
 
             Text(
-                "This is a cool T-shirt. This is a cool T-shirt. " + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt. " + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt. " + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt. " + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt. " + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt.",
+                "This is a cool T-shirt. This is a cool T-shirt. "
+                        + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt. "
+                        + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt. "
+                        + "This is a cool T-shirt. This is a cool T-shirt. This is a cool T-shirt. ",
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -214,22 +222,23 @@ fun ProductScreen() {
             ) {
                 val listOfSizes = listOf("S", "M", "L")
                 for (size in listOfSizes) {
-                    if (size == selectedSize.value) {
-                        Button(
-                            onClick = {},
-                            shape = ButtonDefaults.filledTonalShape
-                        ) {
-                            Text(size)
-                        }
-                    } else {
-                        OutlinedButton(
-                            onClick = {
-                                selectedSize.value = size
-                            }, shape = ButtonDefaults.outlinedShape
-                        ) {
-                            Text(size)
-                        }
+
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (selectedSize.value == size) Color.Black else Color.Transparent,
+                            contentColor = if (selectedSize.value == size) Color.White else Color.Black
+                        ), onClick = {
+                            if (selectedSize.value != size) selectedSize.value = size
+                            else selectedSize.value = null
+                        }, border = BorderStroke(
+                            width = 1.dp,
+                            color = Color.Black
+                        ),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(size)
                     }
+
                 }
             }
         }
